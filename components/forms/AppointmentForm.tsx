@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { getAppointmentSchema } from "@/lib/validation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
@@ -14,16 +14,21 @@ import { FormFieldType } from "./PatientForm";
 import { Doctors } from "@/constants";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
-import { createAppointment } from "@/lib/actions/appointment.actions";
+import { createAppointment, updateAppointment } from "@/lib/actions/appointment.actions";
+import { Appointment } from "@/types/appwrite.types";
 
 export const AppointmentForm = ({
   userId,
   patientId,
-  type,
+  type = "create",
+  appointment,
+  setOpen,
 }: {
   userId: string;
   patientId: string;
-  type: "create" | "cancel" | "schedule";
+  type: "create" | "programar" | "cancelar";
+  appointment?: Appointment;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -33,11 +38,13 @@ export const AppointmentForm = ({
   const form = useForm<z.infer<typeof AppointmentFormValidation>>({
     resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
-      primaryPhysician: "",
-      schedule: new Date(),
-      reason: "",
-      note: "",
-      cancellationReason: "",
+      primaryPhysician: appointment ? appointment?.primaryPhysician : "",
+      schedule: appointment
+        ? new Date(appointment?.schedule!)
+        : new Date(Date.now()),
+      reason: appointment ? appointment.reason : "",
+      note: appointment ? appointment.note : "",
+      cancellationReason: appointment?.cancellationReason || "",
     },
   });
 
@@ -46,10 +53,10 @@ export const AppointmentForm = ({
 
     let status;
     switch (type) {
-      case "schedule":
+      case "programar":
         status = "programado";
         break;
-      case "cancel":
+      case "cancelar":
         status = "cancelado";
         break;
       default:
@@ -58,7 +65,7 @@ export const AppointmentForm = ({
 
     try {
       if (type === "create" && patientId) {
-        const appointmentData = {
+        const appointment = {
           userId,
           patient: patientId,
           primaryPhysician: values.primaryPhysician,
@@ -68,32 +75,51 @@ export const AppointmentForm = ({
           note: values.note,
         };
 
-        const appointment = await createAppointment(appointmentData);
+        const newAppointment = await createAppointment(appointment);
 
-        if (appointment) {
+        if (newAppointment) {
           form.reset();
           router.push(
-            `/patients/${userId}/new-appointment/success?appointmentId=${appointment.$id}`
+            `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`
           );
+        }
+      } else {
+        const appointmentToUpdate = {
+          userId,
+          appointmentId: appointment?.$id!,
+          appointment: {
+            primaryPhysician: values.primaryPhysician,
+            schedule: new Date(values.schedule),
+            status: status as Status,
+            cancellationReason: values.cancellationReason,
+            note: values.note,
+          },
+          type,
+        };
+
+        const updatedAppointment = await updateAppointment(appointmentToUpdate);
+
+        if (updatedAppointment) {
+          setOpen && setOpen(false);
+          form.reset();
         }
       }
     } catch (error) {
       console.log(error);
     }
-
     setIsLoading(false);
-  }
+  };
 
   let buttonLabel;
 
   switch (type) {
-    case "cancel":
+    case "cancelar":
       buttonLabel = "Cancelar turno";
       break;
     case "create":
       buttonLabel = "Pedir turno";
       break;
-    case "schedule":
+    case "programar":
       buttonLabel = "Programar turno";
       break;
     default:
@@ -103,12 +129,16 @@ export const AppointmentForm = ({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
-        <section className="mb-12 space-y-4">
-          <h1 className="header">Nuevo Turno</h1>
-          <p className="text-dark-700">Solicita tu turno en 10 segundos</p>
-        </section>
+      {type === "create" && (
+          <section className="mb-12 space-y-4">
+            <h1 className="header">Nuevo turno</h1>
+            <p className="text-dark-700">
+              Request a new appointment in 10 seconds.
+            </p>
+          </section>
+        )}
 
-        {type !== "cancel" && (
+        {type !== "cancelar" && (
           <>
             <CustomFormField
               fieldType={FormFieldType.SELECT}
@@ -149,7 +179,7 @@ export const AppointmentForm = ({
                 name="reason"
                 label="Motivo de la consulta"
                 placeholder="Me duele un pre-molar"
-                disabled={type === "schedule"}
+                disabled={type === "programar"}
               />
 
               <CustomFormField
@@ -158,13 +188,12 @@ export const AppointmentForm = ({
                 name="note"
                 label="Notas"
                 placeholder="Tengo un tratamiento de conducto en ese diente"
-                disabled={type === "schedule"}
               />
             </div>
           </>
         )}
 
-        {type === "cancel" && (
+        {type === "cancelar" && (
           <CustomFormField
             fieldType={FormFieldType.TEXTAREA}
             control={form.control}
@@ -177,7 +206,7 @@ export const AppointmentForm = ({
         <SubmitButton
           isLoading={isLoading}
           className={`${
-            type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
+            type === "cancelar" ? "shad-danger-btn" : "shad-primary-btn"
           } w-full`}
         >
           {buttonLabel}
