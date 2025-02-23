@@ -40,14 +40,13 @@ const Success = async ({
             alt="success"
           />
           <h2 className="header mb-6 max-w-[600px] text-center">
-            Your <span className="text-green-500">appointment request</span> has
-            been successfully submitted!
+            Tu <span className="text-green-500">solicitud de turno</span> fue enviada correctamente!
           </h2>
-          <p>We will be in touch shortly to confirm.</p>
+          <p>Nos pondremos en contacto con usted para confirmar o reprogramar el turno.</p>
         </section>
 
         <section className="request-details">
-          <p>Requested appointment details: </p>
+          <p>Detalles del turno solicitado: </p>
           <div className="flex items-center gap-3">
             <Image
               src={doctor?.image!}
@@ -71,11 +70,11 @@ const Success = async ({
 
         <Button variant="outline" className="shad-primary-btn" asChild>
           <Link href={`/patients/${userId}/new-appointment`}>
-            New Appointment
+            Nuevo turno
           </Link>
         </Button>
 
-        <p className="copyright">© 2024 CarePluse</p>
+        <p className="copyright">© Apache90</p>
       </div>
     </div>
   )

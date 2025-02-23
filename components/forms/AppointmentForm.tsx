@@ -133,7 +133,7 @@ export const AppointmentForm = ({
           <section className="mb-12 space-y-4">
             <h1 className="header">Nuevo turno</h1>
             <p className="text-dark-700">
-              Request a new appointment in 10 seconds.
+              Solicitalo de manera rapida y sencilla.
             </p>
           </section>
         )}

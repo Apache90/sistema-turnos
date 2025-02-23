@@ -77,7 +77,7 @@ const PassKeyModal = () => {
             />
           </AlertDialogTitle>
           <AlertDialogDescription>
-            To access the admin page, please enter the passkey.
+          Para acceder a la página de administración, introduzca la clave de acceso.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div>
@@ -107,7 +107,7 @@ const PassKeyModal = () => {
             onClick={(e) => validatePasskey(e)}
             className="shad-primary-btn w-full"
           >
-            Enter Admin Passkey
+            Introduzca la clave de administrador
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
