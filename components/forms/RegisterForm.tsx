@@ -96,6 +96,7 @@ export const RegisterForm = ({user}:{user: User}) => {
             fieldType={FormFieldType.INPUT}
             control={form.control}
             name="name"
+            label="Nombre completo *"
             placeholder="Lionel Messi"
             iconSrc="/assets/icons/user.svg"
             iconAlt="user"
@@ -107,7 +108,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="email"
-              label="Email"
+              label="Email *"
               placeholder="qatar2022@gmail.com"
               iconSrc="/assets/icons/email.svg"
               iconAlt="email"
@@ -117,7 +118,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.PHONE_INPUT}
               control={form.control}
               name="phone"
-              label="Telefono"
+              label="Telefono *"
               placeholder="3865782639"
             />
           </div>
@@ -128,14 +129,14 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.DATE_PICKER}
               control={form.control}
               name="birthDate"
-              label="Fecha de Nacimiento"
+              label="Fecha de Nacimiento *"
             />
 
             <CustomFormField
               fieldType={FormFieldType.SKELETON}
               control={form.control}
               name="gender"
-              label="Genero"
+              label="Genero *"
               renderSkeleton={(field) => (
                 <FormControl>
                   <RadioGroup
@@ -163,7 +164,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="address"
-              label="Direccion"
+              label="Direccion *"
               placeholder="Córdoba 67"
             />
 
@@ -182,7 +183,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="emergencyContactName"
-              label="Contacto de emergencia"
+              label="Contacto de emergencia *"
               placeholder="Nombre completo"
             />
 
@@ -190,7 +191,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.PHONE_INPUT}
               control={form.control}
               name="emergencyContactNumber"
-              label="Numero de emergencia"
+              label="Numero de emergencia *"
               placeholder="38144567"
             />
           </div>
@@ -206,7 +207,7 @@ export const RegisterForm = ({user}:{user: User}) => {
             fieldType={FormFieldType.SELECT}
             control={form.control}
             name="primaryPhysician"
-            label="Profesional de cabecera"
+            label="Profesional de cabecera *"
             placeholder="Selecciona uno"
           >
             {Doctors.map((doctor, i) => (
@@ -231,7 +232,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="insuranceProvider"
-              label="Proveedor de salud"
+              label="Proveedor de salud *"
               placeholder="BlueCross BlueShield"
             />
 
@@ -239,7 +240,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.INPUT}
               control={form.control}
               name="insurancePolicyNumber"
-              label="Número de póliza"
+              label="Número de póliza *"
               placeholder="ABC123456789"
             />
           </div>
@@ -269,16 +270,16 @@ export const RegisterForm = ({user}:{user: User}) => {
               fieldType={FormFieldType.TEXTAREA}
               control={form.control}
               name="familyMedicalHistory"
-              label=" Family medical history (if relevant)"
-              placeholder="Mother had brain cancer, Father has hypertension"
+              label="Enfermedad cronica (si posee)"
+              placeholder="Emofilia, HIV, etc"
             />
 
             <CustomFormField
               fieldType={FormFieldType.TEXTAREA}
               control={form.control}
               name="pastMedicalHistory"
-              label="Past medical history"
-              placeholder="Appendectomy in 2015, Asthma diagnosis in childhood"
+              label="Informacion adicional"
+              placeholder="Tengo problemas de movilidad, por problemas en la espalda"
             />
           </div>
         </section>
