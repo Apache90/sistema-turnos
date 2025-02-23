@@ -263,7 +263,7 @@ export const RegisterForm = ({user}:{user: User}) => {
             />
           </div>
 
-          {/* FAMILY MEDICATION & PAST MEDICATIONS
+          {/* FAMILY MEDICATION & PAST MEDICATIONS*/}
           <div className="flex flex-col gap-6 xl:flex-row">
             <CustomFormField
               fieldType={FormFieldType.TEXTAREA}
@@ -280,7 +280,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               label="Past medical history"
               placeholder="Appendectomy in 2015, Asthma diagnosis in childhood"
             />
-          </div>*/}
+          </div>
         </section>
 
         <section className="space-y-6">
