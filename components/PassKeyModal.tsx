@@ -57,7 +57,7 @@ const PassKeyModal = () => {
 
       setOpen(false);
     } else {
-      setError("Invalid passkey. Please try again.");
+      setError("Codigo incorrecto. Por favor vuelva a intentar.");
     }
   };
 

@@ -173,7 +173,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               control={form.control}
               name="occupation"
               label="Ocupación"
-              placeholder=" Software Engineer"
+              placeholder="Empleado"
             />
           </div>
 
@@ -233,7 +233,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               control={form.control}
               name="insuranceProvider"
               label="Proveedor de salud *"
-              placeholder="BlueCross BlueShield"
+              placeholder="OSPE"
             />
 
             <CustomFormField
@@ -260,7 +260,7 @@ export const RegisterForm = ({user}:{user: User}) => {
               control={form.control}
               name="currentMedication"
               label="Toma medicación?"
-              placeholder="Ibuprofen 200mg, Levothyroxine 50mcg"
+              placeholder="Ibuprofeno 200mg, Levothyroxine 50mcg"
             />
           </div>
 
